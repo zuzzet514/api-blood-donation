@@ -1,7 +1,7 @@
 # api-blood-donation
 
 ## install dependencies
-`npm i express mongoose bcryptjs jsonwebtoken dotenv cors`
+`npm install` or `npm i express mongoose bcryptjs jsonwebtoken dotenv cors`
 
 ## how to run the API
 ### Option 1
@@ -27,6 +27,7 @@
 | Become a donor 🔒 | POST   | `/api/donor/` | <br><img src="imagesforreadme/img_7.png"  width="200"/><br> | <img src="imagesforreadme/img_8.png"  width="300"/> |
 
 ### Blood request
-| Purpose                   | Method | Route                 | Consumes                                             | Returns                                              |
-|---------------------------|--------|-----------------------|------------------------------------------------------|------------------------------------------------------|
-| Create a blood request 🔒 | POST   | `/api/blood-request/` | <img src="imagesforreadme/img_11.png"  width="300"/> | <img src="imagesforreadme/img_12.png"  width="200"/> |
+| Purpose                    | Method | Route                 | Consumes                                             | Returns                                              |
+|----------------------------|--------|-----------------------|------------------------------------------------------|------------------------------------------------------|
+| Create a blood request 🔒  | POST   | `/api/blood-request/` | <img src="imagesforreadme/img_11.png"  width="300"/> | <img src="imagesforreadme/img_12.png"  width="200"/> |
+| Get all the blood requests | GET    | `/api/blood-request/`   | Nothing                                              | |
