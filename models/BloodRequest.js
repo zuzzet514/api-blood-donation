@@ -18,7 +18,7 @@ const BloodRequestSchema = new Schema({
         enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
     },
     medicalCondition: { type: String, required: true },
-    urgency: { type: String, enum: ['low', 'medium', 'high'], require:true },
+    urgency: { type: String, enum: ['low', 'medium', 'high'], required:true },
     amountRequiredML: { type: Number, required: true, min: 100 },
     deadline: { type: Date, required: true },
     description: { type: String },

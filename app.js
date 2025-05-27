@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import connectToDB from "./utils/db/dbConnection.js";
@@ -7,28 +10,25 @@ const app = express();
 const PORT = 3000;
 
 const initializeApp = async () => {
-
+  try {
     const dbConnection = await connectToDB();
 
-    try {
-        app.use(cors());
-        app.use(express.json());
+    app.use(cors());
+    app.use(express.json());
+    app.use('/api', apiRoutes);
 
-        app.use('/api', apiRoutes);
+    const server = app.listen(PORT, () => {
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(`Server listening on port ${PORT}`);
+      }
+    });
 
-        if (process.env.NODE_ENV !== 'test') {
-            const server = app.listen(PORT, () => {
-                console.log(`Server listening on port ${PORT}`);
-            })
+    return { app, server, dbConnection };
 
-            return { app, server, dbConnection }
-
-        }
-
-
-    } catch (error) {
-        console.error('Initialization error:', error);
-    }
-}
+  } catch (error) {
+    console.error('Initialization error:', error);
+    throw error; 
+  }
+};
 
 export default initializeApp;

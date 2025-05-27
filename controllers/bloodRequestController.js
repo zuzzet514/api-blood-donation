@@ -8,8 +8,7 @@ import {
 import Person from '../models/Person.js';
 import Institution from '../models/Institution.js';
 
-
-const errorOrigin = "[From bloodRequestController]"
+const errorOrigin = "[From bloodRequestController]";
 
 export const createRequest = async (req, res) => {
     try {
@@ -56,7 +55,9 @@ export const getAllRequests = async (req, res) => {
             model = 'Institution';
         }
 
-        if (!profile) return res.status(404).json({ error: `${errorOrigin} No associated profile found` });
+        if (!profile) {
+            return res.status(404).json({ error: `${errorOrigin} No associated profile found` });
+        }
 
         const requests = await getAllBloodRequests(profile._id, model);
         res.status(200).json(requests);
