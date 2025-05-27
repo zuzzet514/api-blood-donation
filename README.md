@@ -10,6 +10,12 @@
 ### Option 2
 `node server.js`
 
+## MongoDB account
+Google account<br>
+* anfecaconcentratda@gmail.com
+* Password321
+
+
 ## API Routes
 🔒 the routes that has this emoji means that requires to be logged in to be used { 'Authorization': Bearer AccessToken } header
 <br><img src="imagesforreadme/img_6.png"  width="350"/><br>
