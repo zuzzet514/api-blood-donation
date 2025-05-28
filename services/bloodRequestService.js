@@ -47,8 +47,7 @@ export const getBloodRequestById = async (requestId) => {
 };
 
 export const updateBloodRequest = async (requestId, data) => {
-    await BloodRequest.findByIdAndUpdate(requestId, data);
-    const updated = await BloodRequest.findById(requestId);
+    const updated = await BloodRequest.findByIdAndUpdate(requestId, data, { new: true });
     if (!updated) throw new Error(`${errorOrigin} Request not found`);
     return updated;
 };
