@@ -3,7 +3,8 @@ import bcrypt from 'bcryptjs';
 import Account from '../../models/Account.js';
 
 jest.unstable_mockModule('../../services/personService.js', () => ({
-  deletePersonByAccountId: jest.fn()
+  deletePersonByAccountId: jest.fn(),
+  updatePerson: jest.fn()
 }));
 
 jest.unstable_mockModule('../../services/institutionService.js', () => ({

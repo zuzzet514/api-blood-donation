@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
-import connectToDB from "./utils/db/dbConnection.js";
+import { connectToDB } from "./utils/db/dbConnection.js";
 import apiRoutes from "./routes/apiRoutes.js";
 
 const app = express();
@@ -11,7 +11,7 @@ const PORT = 3000;
 
 const initializeApp = async () => {
   try {
-    const dbConnection = await connectToDB();
+    await connectToDB();
 
     app.use(cors());
     app.use(express.json());
@@ -23,11 +23,10 @@ const initializeApp = async () => {
       }
     });
 
-    return { app, server, dbConnection };
-
+    return { app, server };
   } catch (error) {
     console.error('Initialization error:', error);
-    throw error; 
+    throw error;
   }
 };
 
