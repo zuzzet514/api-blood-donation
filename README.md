@@ -25,16 +25,16 @@ Users can contact each other by sending a WhatsApp link. Eligible donors can app
 <br><br>
 These are the functionalities available for each profile:
 
-| Functionality          | Donor | Person requester | Institution requester | 
-|------------------------|-------|:----------------:|-----------------------|
-| Login                  | ✅     |        ✅         | ✅                     |
-| Logout                 | ✅     |        ✅         | ✅                     |
-| CRUD account           | ✅     |        ✅         | ✅                     |
-| CRUD blood requests    | ✅     |        ✅         | ✅                     |
-| Search donors          | ✅     |        ✅         | ✅                     |
-| Search blood requests  | ✅     |        ✅         | ✅                     |
-| Contact another user   | ✅     |        ✅         | ✅                     |
-| Apply to blood request | ✅     |        ❌         | ❌                     |
+| Functionality          |  Donor  | Person requester |  Institution requester  | 
+|------------------------|:-------:|:----------------:|:-----------------------:|
+| Login                  |    ✅    |        ✅         |            ✅            |
+| Logout                 |    ✅    |        ✅         |            ✅            |
+| CRUD account           |    ✅    |        ✅         |            ✅            |
+| CRUD blood requests    |    ✅    |        ✅         |            ✅            |
+| Search donors          |    ✅    |        ✅         |            ✅            |
+| Search blood requests  |    ✅    |        ✅         |            ✅            |
+| Contact another user   |    ✅    |        ✅         |            ✅            |
+| Apply to blood request |    ✅    |        ❌         |            ❌            |
 
 
 ## install dependencies
