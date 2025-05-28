@@ -1,4 +1,17 @@
 # Connect blood donors with requesters API
+## Index
+- [Description](#description)
+- [install dependencies](#install-dependencies)
+- [How to run the API](#how-to-run-the-api)
+- [MongoDB account](#mongodb-account)
+- [API Routes](#api-routes)
+    - [Authentication](#authentication)
+    - [Account](#account)
+    - [Donor](#donor)
+    - [Blood request](#blood-request)
+    - [Contact](#contact-)
+
+## Description
 This API aims to provide a platform to connect people that is looking for blood donations with those willing to help. 
 <br>
 There three main profiles:
@@ -23,16 +36,6 @@ These are the functionalities available for each profile:
 | Contact another user   | ✅     |        ✅         | ✅                     |
 | Apply to blood request | ✅     |        ❌         | ❌                     |
 
-## Index
-- [install dependencies](#install-dependencies)
-- [How to run the API](#how-to-run-the-api)
-- [MongoDB account](#mongodb-account)
-- [API Routes](#api-routes)
-  - [Authentication](#authentication)
-  - [Account](#account)
-  - [Donor](#donor)
-  - [Blood request](#blood-request)
-  - [Contact](#contact-)
 
 ## install dependencies
 `npm install` or `npm i express mongoose bcryptjs jsonwebtoken dotenv cors`
