@@ -1,9 +1,43 @@
-# api-blood-donation
+# Connect blood donors with requesters API
+This API aims to provide a platform to connect people that is looking for blood donations with those willing to help. 
+<br>
+There three main profiles:
+- Donors (are eligible donor)
+- Person requester (not eligible donor)
+- Institutional requester
+
+<br>
+Users register, and if they're a person (not an institution) they can request to be eligible donors. Users can search for eligible donors and blood requests. 
+Users can contact each other by sending a WhatsApp link. Eligible donors can apply for blood requests, while requesters can create blood requests.
+<br><br>
+These are the functionalities available for each profile:
+
+| Functionality          | Donor | Person requester | Institution requester | 
+|------------------------|-------|:----------------:|-----------------------|
+| Login                  | ✅     |        ✅         | ✅                     |
+| Logout                 | ✅     |        ✅         | ✅                     |
+| CRUD account           | ✅     |        ✅         | ✅                     |
+| CRUD blood requests    | ✅     |        ✅         | ✅                     |
+| Search donors          | ✅     |        ✅         | ✅                     |
+| Search blood requests  | ✅     |        ✅         | ✅                     |
+| Contact another user   | ✅     |        ✅         | ✅                     |
+| Apply to blood request | ✅     |        ❌         | ❌                     |
+
+## Index
+- [install dependencies](#install-dependencies)
+- [How to run the API](#how-to-run-the-api)
+- [MongoDB account](#mongodb-account)
+- [API Routes](#api-routes)
+  - [Authentication](#authentication)
+  - [Account](#account)
+  - [Donor](#donor)
+  - [Blood request](#blood-request)
+  - [Contact](#contact-)
 
 ## install dependencies
 `npm install` or `npm i express mongoose bcryptjs jsonwebtoken dotenv cors`
 
-## how to run the API
+## How to run the API
 ### Option 1
 `npm start`
 
@@ -14,7 +48,6 @@
 Google account<br>
 * anfecaconcentratda@gmail.com
 * Password321
-
 
 ## API Routes
 🔒 the routes that has this emoji means that requires to be logged in to be used { 'Authorization': Bearer AccessToken } header
@@ -50,7 +83,7 @@ Google account<br>
 | Edit a blood request 🔒          | PUT    | `api/blood-requests/:id`                     | Fields to update <br> <img src="imagesforreadme/img_15.png"  width="200"/> | <img src="imagesforreadme/img_16.png"  width="300"/> |
 | Delete a blood request 🔒        | DELETE | `api/blood-requests/:id`                     | Nothing                                                                    | { "message": "Blood request deleted successfully" }  | 
 | Apply for a blood request 🔒     | POST   | `/api/blood-requests/application/:requestId` | Nothing                                                                    | <img src="imagesforreadme/img_23.png" width="320">   | 
-| Search blood requests 🔒         | GET    | `/api/blood-requests/search`                 | Nothing                                                                    | <img src="imagesforreadme/img_24.png" width="280">   |
+| Search blood requests * 🔒       | GET    | `/api/blood-requests/search`                 | Nothing                                                                    | <img src="imagesforreadme/img_24.png" width="280">   |
 * Search blood requests can be filtered <br><img src="imagesforreadme/img_25.png"  width="350"/><br>
 
 ### Contact 
