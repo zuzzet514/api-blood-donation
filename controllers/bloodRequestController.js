@@ -3,7 +3,7 @@ import {
     getAllBloodRequests,
     getBloodRequestById,
     updateBloodRequest,
-    deleteBloodRequest
+    deleteBloodRequest, searchBloodRequests
 } from '../services/bloodRequestService.js';
 import Person from '../models/Person.js';
 import Institution from '../models/Institution.js';
@@ -90,5 +90,21 @@ export const deleteRequest = async (req, res) => {
         res.status(200).json(result);
     } catch (error) {
         res.status(404).json({ error: error.message });
+    }
+};
+
+
+export const searchRequests = async (req, res) => {
+    try {
+        const filters = {
+            blood_type: req.query.bloodType,
+            urgency: req.query.urgency,
+            state: req.query.state
+        };
+
+        const results = await searchBloodRequests(filters);
+        res.status(200).json(results);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 };

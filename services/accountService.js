@@ -1,7 +1,8 @@
 import Account from '../models/Account.js';
-import {deletePersonByAccountId} from "./personService.js";
+import {deletePersonByAccountId, updatePerson} from "./personService.js";
 import {deleteInstitutionByAccountId} from "./institutionService.js";
 import bcrypt from 'bcryptjs';
+import Person from "../models/Person.js";
 
 const errorOrigin = '[From accountService]';
 
@@ -25,7 +26,7 @@ export const getAccountById = async (accountId) => {
 };
 
 export const updateAccount = async (accountId, data) => {
-    const { username, email, password } = data;
+    const { username, email, password, ...personData } = data;
     const updateData = {};
 
     if (username) updateData.username = username;
@@ -34,9 +35,17 @@ export const updateAccount = async (accountId, data) => {
         updateData.password = await bcrypt.hash(password, 10);
     }
 
-    const updated = await Account.findByIdAndUpdate(accountId, updateData, { new: true });
-    if (!updated) throw new Error(`${errorOrigin} Account not found`);
-    return updated;
+    const updatedAccount = await Account.findByIdAndUpdate(accountId, updateData, { new: true });
+    if (!updatedAccount) throw new Error(`${errorOrigin} Account not found`);
+
+    if (Object.keys(personData).length > 0) {
+        const person = await Person.findOne({ account_id: accountId });
+        if (person) {
+            await updatePerson(person._id, personData);
+        }
+    }
+
+    return updatedAccount;
 };
 
 

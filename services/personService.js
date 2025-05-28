@@ -120,3 +120,28 @@ export const becomeDonor = async (accountId, {
     };
 }
 
+export const getEligibleDonors = async (filters = {}) => {
+    const query = {
+        "donor_info.is_eligible": true
+    };
+
+    if (filters.blood_type) {
+        query.blood_type = filters.blood_type;
+    }
+
+    if (filters.state) {
+        query["address.state"] = filters.state;
+    }
+
+    if (filters.city) {
+        query["address.city"] = filters.city;
+    }
+
+    if (filters.min_age || filters.max_age) {
+        query.age = {};
+        if (filters.min_age) query.age.$gte = Number(filters.min_age);
+        if (filters.max_age) query.age.$lte = Number(filters.max_age);
+    }
+
+    return Person.find(query).select('-password'); // You can remove .select() if no password field exists
+};
