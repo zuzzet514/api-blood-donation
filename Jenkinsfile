@@ -8,19 +8,19 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                cleanWs()
                 git url: 'https://github.com/zuzzet514/api-blood-donation.git', branch: 'main'
             }
         }
 
         stage('Build & Test') {
+            // Este stage corre dentro de un contenedor Node 18
             agent {
                 docker {
                     image 'node:18'
                 }
             }
             steps {
-                sh 'npm ci' 
+                sh 'npm install'
                 sh 'npm test'
             }
         }
@@ -31,7 +31,6 @@ pipeline {
             }
             steps {
                 echo '✅ Despliegue simulado. Reemplaza aquí con tu comando real.'
-                // sh 'pm2 restart ecosystem.config.js'
             }
         }
     }
