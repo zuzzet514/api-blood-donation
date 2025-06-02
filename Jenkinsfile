@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NODE_ENV = 'development'
+        NODE_ENV = "development"
     }
 
     stages {
@@ -17,7 +17,7 @@ pipeline {
             }
         }
 
-        stage('Ejecutar pruebas') {
+        stage('Pruebas') {
             agent {
                 docker {
                     image 'node:18'
@@ -28,7 +28,7 @@ pipeline {
             }
         }
 
-        stage('Construir imagen Docker') {
+        stage('Build imagen Docker') {
             steps {
                 sh 'docker build -t api-blood-donation .'
             }
@@ -36,8 +36,8 @@ pipeline {
 
         stage('Despliegue simulado') {
             steps {
-                echo '🚀 Simulando despliegue del contenedor...'
-                sh 'docker run -d -p 3000:3000 --name api-blood-donation api-blood-donation || echo "Ya está corriendo o falló la simulación"'
+                echo '✅ Simulando despliegue del contenedor...'
+                sh 'docker run -d -p 3000:3000 --name api-blood-donation api-blood-donation'
             }
         }
     }
