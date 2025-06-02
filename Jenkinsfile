@@ -6,13 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Clonar repositorio') {
-            steps {
-                deleteDir()
-                git url: 'https://github.com/zuzzet514/api-blood-donation.git', branch: 'main'
-            }
-        }
-
         stage('Instalar dependencias') {
             agent {
                 docker {
