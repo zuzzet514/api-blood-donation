@@ -1,36 +1,39 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18'
-        }
-    }
+    agent any
 
     environment {
         NODE_ENV = "development"
     }
 
     stages {
-        stage('Instalar dependencias') {
+        stage('Checkout') {
             steps {
-                sh 'npm install'
+                git url: 'https://github.com/zuzzet514/api-blood-donation.git', branch: 'main'
             }
         }
 
-        stage('Ejecutar pruebas') {
+        stage('Build & Test') {
+            // Este stage corre dentro de un contenedor Node 18
+            agent {
+                docker {
+                    image 'node:18'
+                }
+            }
             steps {
+                // Ya estamos dentro de la carpeta clonada
+                sh 'npm install'
                 sh 'npm test'
             }
         }
 
-        stage('Despliegue') {
+        stage('Deploy') {
             when {
-                expression {
-                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
+                // Solo si todo en Build & Test salió OK
+                expression { currentBuild.currentResult == 'SUCCESS' }
             }
             steps {
-                echo '✅ Despliegue simulado. Puedes reemplazar esto por PM2, Docker, o lo que necesites.'
-                // Ejemplo real:
+                echo '✅ Despliegue simulado. Reemplaza aquí con tu comando real.'
+                // Ejemplo real (descomenta y adapta según tu entorno):
                 // sh 'pm2 restart ecosystem.config.js'
             }
         }
@@ -38,10 +41,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ CI/CD ejecutado con éxito.'
+            echo '✅ CI/CD finalizó con éxito.'
         }
         failure {
-            echo '❌ Las pruebas fallaron. No se desplegó.'
+            echo '❌ Algo falló en Build & Test, no se desplegó.'
         }
     }
 }
