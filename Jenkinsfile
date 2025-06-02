@@ -13,15 +13,16 @@ pipeline {
         }
 
         stage('Build & Test') {
-            // Este stage corre dentro de un contenedor Node 18
             agent {
                 docker {
                     image 'node:18'
                 }
             }
             steps {
-                sh 'npm install'
-                sh 'npm test'
+                dir('api-blood-donation') {
+                    sh 'npm install'
+                    sh 'npm test'
+                }
             }
         }
 
@@ -30,7 +31,7 @@ pipeline {
                 expression { currentBuild.currentResult == 'SUCCESS' }
             }
             steps {
-                echo '✅ Despliegue simulado. Reemplaza aquí con tu comando real.'
+                echo '✅ Despliegue simulado. Reemplaza con tu lógica real.'
             }
         }
     }
