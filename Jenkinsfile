@@ -2,10 +2,17 @@ pipeline {
     agent any
 
     environment {
-        NODE_ENV = "development"
+        NODE_ENV = 'development'
     }
 
     stages {
+        stage('Clonar repositorio') {
+            steps {
+                deleteDir()
+                git url: 'https://github.com/zuzzet514/api-blood-donation.git', branch: 'main'
+            }
+        }
+
         stage('Instalar dependencias') {
             agent {
                 docker {
@@ -17,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Pruebas') {
+        stage('Ejecutar pruebas') {
             agent {
                 docker {
                     image 'node:18'
@@ -28,7 +35,7 @@ pipeline {
             }
         }
 
-        stage('Build imagen Docker') {
+        stage('Construir imagen Docker') {
             steps {
                 sh 'docker build -t api-blood-donation .'
             }
@@ -36,15 +43,15 @@ pipeline {
 
         stage('Despliegue simulado') {
             steps {
-                echo '✅ Simulando despliegue de contenedor...'
-                sh 'docker run -d -p 3000:3000 --name api-blood-donation api-blood-donation'
+                echo '🚀 Simulando despliegue del contenedor...'
+                sh 'docker run -d -p 3000:3000 --name api-blood-donation api-blood-donation || echo "Ya está corriendo o falló la simulación"'
             }
         }
     }
 
     post {
         success {
-            echo '✅ CI/CD finalizó con éxito.'
+            echo '✅ CI/CD completado con éxito.'
         }
         failure {
             echo '❌ Falló alguna etapa del pipeline.'
