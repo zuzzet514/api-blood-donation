@@ -1,48 +1,60 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    IMAGE_NAME = 'api-blood-donation'
-    IMAGE_TAG = 'latest'
-    CONTAINER_NAME = 'api-blood-donation-test'
-  }
-
-  stages {
-    stage('Checkout') {
-      steps {
-        git url: 'https://github.com/zuzzet514/api-blood-donation.git', branch: 'main'
-      }
+    environment {
+        NODE_ENV = "development"
     }
 
-    stage('Build Docker Image') {
-      steps {
-        script {
-          sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
+    stages {
+        stage('Clonar repositorio') {
+            steps {
+                deleteDir()
+                git url: 'https://github.com/zuzzet514/api-blood-donation.git', branch: 'main'
+            }
         }
-      }
-    }
 
-    stage('Run Container (con .env)') {
-      steps {
-        script {
-          // Verifica que el archivo .env esté presente en tu repo
-          sh "docker run -d --name $CONTAINER_NAME --env-file .env -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG"
-          sh "sleep 5"
-          sh "docker ps"
+        stage('Instalar dependencias') {
+            agent {
+                docker {
+                    image 'node:18'
+                }
+            }
+            steps {
+                sh 'npm install'
+            }
         }
-      }
-    }
-  }
 
-  post {
-    always {
-      sh "docker rm -f $CONTAINER_NAME || true"
+        stage('Pruebas') {
+            agent {
+                docker {
+                    image 'node:18'
+                }
+            }
+            steps {
+                sh 'npm test'
+            }
+        }
+
+        stage('Build imagen Docker') {
+            steps {
+                sh 'docker build -t api-blood-donation .'
+            }
+        }
+
+        stage('Despliegue simulado') {
+            steps {
+                echo '✅ Simulando despliegue de contenedor...'
+                sh 'docker run -d -p 3000:3000 --name api-blood-donation api-blood-donation'
+            }
+        }
     }
-    success {
-      echo '✅ Contenedor corriendo exitosamente con .env.'
+
+    post {
+        success {
+            echo '✅ CI/CD finalizó con éxito.'
+        }
+        failure {
+            echo '❌ Falló alguna etapa del pipeline.'
+        }
     }
-    failure {
-      echo '❌ Hubo un error en el pipeline.'
-    }
-  }
 }
