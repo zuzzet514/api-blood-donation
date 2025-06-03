@@ -19,6 +19,7 @@ pipeline {
       steps {
         echo "🧹 Limpiando workspace y clonando repositorio..."
         deleteDir()
+        git url: 'https://github.com/zuzzet514/api-blood-donation.git', branch: 'main'
       }
     }
 
