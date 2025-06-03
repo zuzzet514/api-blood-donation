@@ -41,8 +41,13 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
-  await server.close();
+  await mongoose.disconnect(); // cierre limpio
+  await new Promise((resolve, reject) => {
+    server.close((err) => {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
 });
 
 describe('Account Integration Tests', () => {
@@ -59,18 +64,17 @@ describe('Account Integration Tests', () => {
 
   it('PUT /api/account/me → debería actualizar los datos de la cuenta y persona', async () => {
     const res = await request(app)
-        .put('/api/account/me')
-        .set('Authorization', `Bearer ${accessToken}`)
-        .send({
-        username: 'mariaDB',       
-        age: 29                    
-        });
+      .put('/api/account/me')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        username: 'mariaDB',
+        age: 29
+      });
 
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('message', 'Account and personal data updated successfully');
     expect(res.body.account).toHaveProperty('username', 'mariaDB');
   });
-
 
   it('DELETE /api/account/me → debería eliminar la cuenta', async () => {
     const res = await request(app)
