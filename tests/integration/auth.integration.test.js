@@ -21,8 +21,13 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
-  await server.close();
+  await mongoose.disconnect(); // Desconexión segura de la BD
+  await new Promise((resolve, reject) => {
+    server.close(err => {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
 });
 
 describe('Auth Integration Tests', () => {
