@@ -47,7 +47,7 @@ pipeline {
         sh 'npm test tests/integration/donor.integration.test.js -- --detectOpenHandles'
       }
     }
-    
+
     stage('Construir imagen Docker') {
       steps {
         echo "🐳 Construyendo imagen Docker..."
@@ -55,18 +55,30 @@ pipeline {
       }
     }
 
-    stage('Simular despliegue') {
+    stage('Push a DockerHub') {
       steps {
-        echo "🚀 Despliegue simulado (imagen construida, lista para subir a DockerHub o correr en servidor)"
+        echo "📤 Subiendo imagen a DockerHub..."
+        withCredentials([usernamePassword(
+          credentialsId: 'dockerhub-credentials', 
+          usernameVariable: 'DOCKER_USER', 
+          passwordVariable: 'DOCKER_PASS'
+        )]) {
+          sh '''
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker tag api-blood-donation $DOCKER_USER/api-blood-donation:latest
+            docker push $DOCKER_USER/api-blood-donation:latest
+          '''
+        }
       }
     }
   }
+
   post {
     failure {
       echo '❌ Falló alguna etapa del pipeline.'
     }
     success {
-      echo '✅ Pipeline ejecutado exitosamente.'
+      echo '✅ Pipeline ejecutado exitosamente y la imagen fue subida a DockerHub.'
     }
   }
 }
