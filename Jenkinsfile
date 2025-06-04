@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'nodejs' // Asegúrate de tener esta versión configurada en Jenkins
+    nodejs 'nodejs' 
   }
 
   environment {
@@ -58,7 +58,7 @@ pipeline {
 
     stage('Push a DockerHub') {
       steps {
-        echo "📤 Subiendo imagen a DockerHub..."
+        echo "📤 Subiendo imagen a DockerHub y desplegando automaticamente en Render..."
         withCredentials([usernamePassword(
           credentialsId: 'dockerhub-credentials',
           usernameVariable: 'DOCKER_USER',
