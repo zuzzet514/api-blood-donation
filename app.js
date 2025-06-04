@@ -7,7 +7,7 @@ import { connectToDB } from "./utils/db/dbConnection.js";
 import apiRoutes from "./routes/apiRoutes.js";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const initializeApp = async () => {
   try {
