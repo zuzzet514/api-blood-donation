@@ -17,6 +17,10 @@ const initializeApp = async () => {
     app.use(cors());
     app.use(express.json());
 
+    app.get('/', (req, res) => {
+      res.send('🚀 Despliegue automático exitoso desde Jenkins + DockerHub + Render');
+    });
+
     app.get('/health', (req, res) => {
       res.status(200).json({
         status: 'ok',
