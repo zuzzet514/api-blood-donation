@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'nodejs' 
+    nodejs 'nodejs' // Asegúrate de tener esta versión configurada en Jenkins
   }
 
   environment {
@@ -15,6 +15,7 @@ pipeline {
   }
 
   stages {
+
     stage('Preparar entorno') {
       steps {
         echo "🧹 Limpiando workspace y clonando repositorio..."
@@ -39,7 +40,7 @@ pipeline {
 
     stage('Pruebas de integración') {
       steps {
-        echo "🧪 Ejecutando pruebas de integración (una por una)..."
+        echo "🧪 Ejecutando pruebas de integración..."
         sh 'npm test tests/integration/account.integration.test.js -- --detectOpenHandles'
         sh 'npm test tests/integration/auth.integration.test.js -- --detectOpenHandles'
         sh 'npm test tests/integration/bloodRequest.integration.test.js -- --detectOpenHandles --forceExit'
@@ -59,14 +60,15 @@ pipeline {
       steps {
         echo "📤 Subiendo imagen a DockerHub..."
         withCredentials([usernamePassword(
-          credentialsId: 'dockerhub-credentials', 
-          usernameVariable: 'DOCKER_USER', 
+          credentialsId: 'dockerhub-credentials',
+          usernameVariable: 'DOCKER_USER',
           passwordVariable: 'DOCKER_PASS'
         )]) {
           sh '''
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
             docker tag api-blood-donation $DOCKER_USER/api-blood-donation:latest
             docker push $DOCKER_USER/api-blood-donation:latest
+            curl -X POST https://api.render.com/deploy/srv-d10brvre5dus73a65iug?key=9GGwleLtpt8
           '''
         }
       }
